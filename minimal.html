@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>  
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+	<title>Minimal JSmol Demo</title>
+
+	<!-- CSS Style Inline: -->
+	<style type="text/css">
+		/* Jmol Applet */
+		/* defines height, width and orientation of the Jmol div element */
+		#jmol_div{
+			height: 500px;
+			width:  500px;
+			float: left;
+		}		
+	</style>
+
+	<!-- Load Jmol javascript library -->
+	<script type="text/javascript" src="jsmol/JSmol.min.js"></script>
+
+	<!-- calls to jQuery and Jmol (inline) -->
+	<script type="text/javascript">
+		// Jmol readyFunction 
+		// is called when Jmol is ready
+		jmol_isReady = function(applet) {
+			document.title = (applet._id + " - Jmol " + Jmol.___JmolVersion)
+			Jmol._getElement(applet, "appletdiv").style.border="1px solid blue"
+		}
+
+		// initialize Jmol Applet
+		var myJmol = "myJmol";
+		var Info = {
+			width:   "100%",
+			height:  "100%",
+			color:   "#000000", //black
+			use:     "HTML5",
+			j2sPath: "jsmol/j2s", // this needs to point to where the j2s directory is.
+			jarPath: "jsmol/java",// this needs to point to where the java directory is.
+			jarFile: "JmolAppletSigned.jar",
+			debug:   false,
+			readyFunction: jmol_isReady,
+			script:  'load "mol/caffeine.mol" ;', // on-load Jmol script
+	 		allowJavaScript: false,
+			disableJ2SLoadMonitor: true,
+		}
+
+		// jQuery ready functions
+		// is called when page has been completely loaded
+		$(document).ready(function() {
+			$("#jmol_div").html(Jmol.getAppletHtml(myJmol, Info))
+		})
+		var lastPrompt=0;
+	</script>
+
+</head>
+<body>
+<h1>Minimal JSmol Demo</h1>
+
+<!-- DIV in which Jmol Applet will be placed -->
+<div id='jmol_div'></div>
+
+</body>
+</html>
