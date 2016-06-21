@@ -2,68 +2,21 @@
 <html>
 <head>  
     <meta content="text/html; charset=UTF-8" http-equiv="content-type">
-    <title>Jmol Demo</title>
+    <title>Jmol Surfaces Demo</title>
 
     <!-- CSS stylesheets externalized -->
     <link rel="stylesheet" href="./jquery/jquery-ui.css" type="text/css" charset="utf-8" />
-    <link rel="stylesheet" href="./jmol_demo.css"        type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="./jmol_surfaces.css"        type="text/css" charset="utf-8"/>
 </head>
 <body>
 <h1>Jmol Demo</h1>
 
 <div id='commands'>
   <ul><!-- The tab headers -->
-    <li><a href="#jcmd-1">Jmol 1</a></li>
-    <li><a href="#jcmd-2">Jmol 2</a></li>
     <li><a href="#jcmd-3">Surfaces (HOMO/LUMO)</a></li>
     <li><a href="#jcmd-99">Jmol Info</a></li>
   </ul>
 
-  <div id="jcmd-1"> <!-- Content of Tab Jmol 1 -->
-  <ul>
-    <li><div class="jmolscript">load mol/caffeine.mol;</div></li>
-    <li><div class="jmolscript">cpk 100%;</div></li>
-    <li><div class="jmolscript">cpk off; wireframe on;</div></li>
-    <li><div class="jmolscript">cpk 23%; wireframe 0.15;</div></li>
-    <li>&nbsp;</li>
-    <li><div class="jmolscript">calculate PARTIALCHARGE; label %.3P ;</div></li>
-    <li><div class="jmolscript">isosurface iso1 resolution 6 SOLVENT map MEP ;</div></li>
-    <li><div class="jmolscript">isosurface iso1 translucent ;</div></li>
-    <li><div class="jmolscript">isosurface iso1 off; labels off;</div></li>
-
-    <li>&nbsp;</li>
-    <li><div class="jmolscript">color atoms blue;</div></li>
-    <li><div class="jmolscript">load append "mol/caffeine.mol";</div></li>
-    <li><div class="jmolscript">frame 1.1;</div></li>
-    <li><div class="jmolscript">frame 2.1;</div></li>
-    <li><div class="jmolscript">frame all;</div></li>
-    <li><div class="jmolscript">select */2.1; rotate selected Y 20 molecular;</div></li>
-    <li><div class="jmolscript">axes 0.05</div></li>
-    <li>&nbsp;</li>
-    <li><div class="jmolscript">frame 2.1;</div></li>
-    <li><div class="jmolscript">set backgroundModel 1.1;</div></li>
-    <li><div class="jmolscript">select */2.1;</div></li>
-    <li>&nbsp;</li>
-    <li><div class="jmolscript">console;</div></li>
-    <li><div class="jmolscript">compare {*/1.1} {*/2.1}</div></li>
-    <li><div class="jmolscript">x=compare({*/1.1},{*/2.1},"stddev");print x</div></li>
-    <li>&nbsp;</li>
-  </ul>
-  </div>
-  <div id="jcmd-2"> <!-- Content of Tab Jmol 2 -->
-  <ul>
-    <li><div class="jmolscript">set allowRotateSelected TRUE</div></li>
-    <li><div class="jmolscript">mol_a = {*/1.1} ; mol_b = {*/2.1}</div></li>
-    <li><div class="jmolscript"></div></li>
-    <li><div class="jmolscript"></div></li>
-    <li><div class="jmolscript"></div></li>
-    <li><div class="jmolscript"></div></li>
-    <li><div class="jmolscript"></div></li>
-    <li><div class="jmolscript"></div></li>
-    <li><div class="jmolscript"></div></li>
-    <li><div class="jmolscript"></div></li>
-  </ul>
-  </div>
   <div id="jcmd-3"> <!-- Content of Tab Jmol 3 -->
   <ol>
     <li>Load an example file:</li>

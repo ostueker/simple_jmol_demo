@@ -1,0 +1,35 @@
+/* Jmol div (applet) */
+#jmol_div{
+	height: 750px;
+	width:  750px;
+	float: right;
+	border: 1px solid black;
+}
+
+/* Tabbed box for Jmol-script commands */
+#commands{
+	width:	500px;
+	float:	left;
+}
+
+/* format for Jmol-script commands */
+.jmolscript{
+	font-family: "Courier New", courier, monospace;
+	font-size: 	 85.0%;
+	cursor:		 pointer;
+}
+
+/* remove bullets from unodrered list (ul) */
+ul.nobullet{
+	padding-left: 0px;
+}
+li.nobullet{
+    list-style-type: none;
+}
+
+/* Jmol Info box */ 
+#infodiv {
+    font-family: "Courier New", courier, monospace;
+    font-size: 55.0%;
+    width: 100%;
+}
