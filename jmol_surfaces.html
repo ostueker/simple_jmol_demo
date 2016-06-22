@@ -19,27 +19,27 @@
 
   <div id="jcmd-3"> <!-- Content of Tab Jmol 3 -->
   <ol>
-    <li>Load an example file:</li>
+    <li>1) Load an example file:</li>
     <li><div class="jmolscript">load "mol/methanol.log" ; frame 2</div></li>
     <li>&nbsp;</li>
-    <li>Or load Browse local file:</li>
+    <li>... or browse to load local file:</li>
     <li><div class="jmolscript">load "?" ; frame 2</div></li>
     <li>&nbsp;</li>
-    <li>Display Electrostatic Potential or HOMO or LUMO mapped on molecular surface:</li>
+    <li>2) Display either Electrostatic Potential or HOMO or LUMO mapped on molecular surface:</li>
     <li><div class="jmolscript">isosurface id iso_mep  molecular map mep #ESP</div></li>
     <li><div class="jmolscript">isosurface id iso_homo molecular map mo homo</div></li>
     <li><div class="jmolscript">isosurface id iso_lumo molecular map mo lumo</div></li>
     <li>&nbsp;</li>
-    <li>Set Isosurface Tranlucent or Opaque:</li>
+    <li>3) Set Isosurface to be tranlucent or opaque:</li>
     <li><div class="jmolscript">isosurface translucent 0.99 # translucent</div></li>
     <li><div class="jmolscript">isosurface translucent 0.75</div></li>
     <li><div class="jmolscript">isosurface translucent 0.5 </div></li>
     <li><div class="jmolscript">isosurface translucent 0.25</div></li>
     <li><div class="jmolscript">isosurface translucent 0.0 # opaque</div></li>
     <li>&nbsp;</li>
-    <li>Download Image:</li> 
+    <li>4) Download Image:</li> 
     <li><div class="jmolscript">write PNG "output.png?"</div></li>
-    <li><div class="jmolscript">write PNG 1000 1000 "output.png?"</div></li>
+    <li><div class="jmolscript">write PNG 1000 1000 "output.png?" # higher resolution</div></li>
     <li>&nbsp;</li>
     <li>Delete Isosurface:</li> 
     <li><div class="jmolscript">isosurface delete</div></li>
