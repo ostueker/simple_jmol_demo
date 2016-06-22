@@ -1,15 +1,16 @@
 /* Jmol div (applet) */
 #jmol_div{
-	height: 750px;
-	width:  750px;
+	height: 700px;
+	width:  700px;
 	float: right;
 	border: 1px solid black;
 }
 
 /* Tabbed box for Jmol-script commands */
 #commands{
-	width:	500px;
+	width:	700px;
 	float:	left;
+	font-size: 90%;
 }
 
 /* format for Jmol-script commands */
