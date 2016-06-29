@@ -6,7 +6,7 @@ View the pages online at: <http://ostueker.github.io/simple_jmol_demo/>
 
 Find the GitHub Repository at: <https://github.com/ostueker/simple_jmol_demo/>
 
-The repo consists of the folling pages:
+The repo consists of the following pages:
 
   * [minimal.html](minimal.html) -
     A self contiained HTML file that only has JSmol as an external dependency
@@ -34,7 +34,3 @@ by the pages:
    <http://chemapps.stolaf.edu/jmol/docs/?&fullmanual=1&ver=14.6>
  * Main Jmol Homepage: <http://www.jmol.org>
  * Jmol Wiki:          <http://wiki.jmol.org>
-
-
-<!-- include Fork-me-on-GitHub-ribbon: -->
-<a href="https://github.com/ostueker/simple_jmol_demo/"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
