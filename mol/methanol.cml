@@ -1,0 +1,31 @@
+<molecule id="mol9999" spinMultiplicity="1" formalCharge="0" convention="convention:molecular" xmlns:iupac="http://www.iupac.org/">
+  <atomArray>
+    <atom id="a1" elementType="C" x3="0.0210906186" y3="0.0235895974" z3="0.056311276"/>
+    <atom id="a2" elementType="O" x3="0.1137404523" y3="-0.2314103958" z3="1.4486596406"/>
+    <atom id="a3" elementType="H" x3="0.7092460665" y3="0.430735226" z3="1.8298454844"/>
+    <atom id="a4" elementType="H" x3="0.9908113069" y3="-0.0666529723" z3="-0.4577944195"/>
+    <atom id="a5" elementType="H" x3="-0.3994635632" y3="1.0166255021" z3="-0.1668748117"/>
+    <atom id="a6" elementType="H" x3="-0.6535220202" y3="-0.7311234939" z3="-0.3570590853"/>
+  </atomArray>
+  <bondArray>
+    <bond atomRefs2="a1 a2" id="a1_a2" order="S"/>
+    <bond atomRefs2="a1 a4" id="a1_a4" order="S"/>
+    <bond atomRefs2="a1 a5" id="a1_a5" order="S"/>
+    <bond atomRefs2="a1 a6" id="a1_a6" order="S"/>
+    <bond atomRefs2="a2 a3" id="a2_a3" order="S"/>
+  </bondArray>
+  <property dictRef="cml:molmass">
+    <scalar dataType="xsd:double" units="unit:dalton" xmlns:unit="http://www.xml-cml.org/unit/nonSi/">32.04186</scalar>
+  </property>
+  <property dictRef="cc:dipoleMomentVector">
+    <array dataType="xsd:double" units="nonSi:elementaryCharge.bohr" size="3">0.3301874 0.5015723 -0.2890867</array>
+  </property>
+  <property dictRef="id:smiles" xmlns:id="http://www.xml-cml.org/dictionary/identifier/">
+    <scalar dataType="xsd:string">CO</scalar>
+  </property>
+  <property dictRef="id:smiles_H" xmlns:id="http://www.xml-cml.org/dictionary/identifier/">
+    <scalar dataType="xsd:string">[CH3][OH]</scalar>
+  </property>
+  <identifier convention="iupac:inchi" value="InChI=1S/CH4O/c1-2/h2H,1H3"/>
+  <identifier convention="iupac:inchiKey" value="OKKJLVBELUTLKV-UHFFFAOYSA-N"/>
+</molecule> 
