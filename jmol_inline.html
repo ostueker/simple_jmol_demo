@@ -140,7 +140,7 @@
 </script>
 
 <ul>
-	<li> set of controls (uses function "set_checkbox_state(state)"):</li>
+	<li>First set of controls (uses function "set_checkbox_state(state)"):</li>
 	<li><input type="radio" name="surface1"  checked="checked"
 			onclick="Jmol.script(myJmol, 'isosurface off;'); set_checkbox_state('off');" />&nbsp;Surface off</li>
 	<li><input type="radio" name="surface1" 
@@ -148,30 +148,24 @@
 	<li><input type="radio" name="surface1" 
 			onclick="Jmol.script(myJmol, 'isosurface solvent;'); set_checkbox_state('on');" />&nbsp;Solvent Accessible Surface</li>
 	<li><input class="surfacebox" type="checkbox" disabled="true"
-			onclick="Jmol.script(myJmol, 'isosurface translucent 0.5;')" />&nbsp;Translucent Surface</li>
+			onclick="Jmol.script(myJmol, 'isosurface translucent 0.5;')" />&nbsp;Translucent Surface
+	</li>
 	<li><input class="surfacebox" type="checkbox" disabled="true"
 			onclick="Jmol.script(myJmol, 'isosurface map mep;')" />&nbsp;Electrostatic Potential</li>
-
 </ul>
 
 <ul>
-	<li>Another set of controls (uses function "set_checkbox_state_class(state, cls)"):</li>
+	<li>Second set of controls (uses function "set_checkbox_state_class(state, cls)"):</li>
 	<li><input type="radio" name="surface2"  checked="checked"
-			onclick="Jmol.script(myJmol, 'isosurface off;'); set_checkbox_state_class('off', 'surf2');" />&nbsp;Surface off
-	</li>
+			onclick="Jmol.script(myJmol, 'isosurface off;'); set_checkbox_state_class('off', 'surf2');" />&nbsp;Surface off</li>
 	<li><input type="radio" name="surface2" 
-			onclick="Jmol.script(myJmol, 'isosurface vdw;'); set_checkbox_state_class('on', 'surf2');" />&nbsp;Van der Waals Surface
-	</li>
+			onclick="Jmol.script(myJmol, 'isosurface vdw;'); set_checkbox_state_class('on', 'surf2');" />&nbsp;Van der Waals Surface</li>
 	<li><input type="radio" name="surface2" 
-			onclick="Jmol.script(myJmol, 'isosurface solvent;'); set_checkbox_state_class('on', 'surf2');" />&nbsp;Solvent Accessible Surface
-	</li>
+			onclick="Jmol.script(myJmol, 'isosurface solvent;'); set_checkbox_state_class('on', 'surf2');" />&nbsp;Solvent Accessible Surface</li>
 	<li><input class="surfacebox surf2" type="checkbox" disabled="true"
-			onclick="Jmol.script(myJmol, 'isosurface translucent 0.5;')" />&nbsp;Translucent Surface
-	</li>
+			onclick="Jmol.script(myJmol, 'isosurface translucent 0.5;')" />&nbsp;Translucent Surface</li>
 	<li><input class="surfacebox surf2" type="checkbox" disabled="true"
-			onclick="Jmol.script(myJmol, 'isosurface map mep;')" />&nbsp;Electrostatic Potential
-	</li>
-
+			onclick="Jmol.script(myJmol, 'isosurface map mep;')" />&nbsp;Electrostatic Potential</li>
 </ul>
 
 
