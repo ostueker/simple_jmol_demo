@@ -18,6 +18,7 @@ Clazz.defineMethod (c$, "readAtomsAndBonds",
 function (tokens) {
 var ac = this.mr.parseIntStr (tokens[3]);
 this.readAtoms (ac);
+this.mr.asc.setModelInfoForSet ("dimension", (this.mr.is2D ? "2D" : "3D"), this.mr.asc.iSet);
 this.readBonds (this.mr.parseIntStr (tokens[4]));
 this.readUserData (ac);
 }, "~A");
@@ -36,6 +37,7 @@ var y = this.mr.parseFloatStr (tokens[5]);
 var z = this.mr.parseFloatStr (tokens[6]);
 var charge = 0;
 var isotope = 0;
+if (this.mr.is2D && z != 0) this.mr.is2D = this.mr.optimize2D = false;
 for (var j = 7; j < tokens.length; j++) {
 var s = tokens[j].toUpperCase ();
 if (s.startsWith ("CHG=")) charge = this.mr.parseIntAt (tokens[j], 4);
@@ -49,6 +51,7 @@ this.mr.discardLinesUntilContains ("END ATOM");
 Clazz.defineMethod (c$, "readBonds", 
  function (bondCount) {
 this.mr.discardLinesUntilContains ("BEGIN BOND");
+if (bondCount == 0) this.mr.asc.setNoAutoBond ();
 for (var i = 0; i < bondCount; ++i) {
 this.rd ();
 var stereo = 0;
@@ -89,6 +92,10 @@ var isPartial = (name.indexOf ("partial") >= 0);
 if (isPartial) {
 if (pc == null) pc = name;
  else if (!pc.equals (name)) isPartial = false;
+}if (isPartial) {
+var at = this.mr.asc.atoms;
+for (var i = this.mr.asc.getLastAtomSetAtomIndex (), n = this.mr.asc.ac; i < n; i++) at[i].partialCharge = 0;
+
 }var a = null;
 var f = 0;
 if (isPartial) f = this.mr.parseFloatStr (data);

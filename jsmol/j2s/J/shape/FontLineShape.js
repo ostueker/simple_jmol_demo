@@ -17,9 +17,10 @@ function (propertyName, value) {
 if ("tickInfo" === propertyName) {
 var t = value;
 if (t.ticks == null) {
-if (t.type.equals (" ")) this.tickInfos[0] = this.tickInfos[1] = this.tickInfos[2] = this.tickInfos[3] = null;
- else this.tickInfos["xyz".indexOf (t.type) + 1] = null;
+if (t.type.equals (" ")) {
+this.tickInfos[0] = this.tickInfos[1] = this.tickInfos[2] = this.tickInfos[3] = null;
 return;
+}t = null;
 }this.tickInfos["xyz".indexOf (t.type) + 1] = t;
 return;
 }if ("font" === propertyName) {

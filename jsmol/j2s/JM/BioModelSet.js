@@ -52,7 +52,7 @@ for (var j = m.bioPolymerCount; --j >= 0; ) m.bioPolymers[j].calcSelectedMonomer
 });
 Clazz.defineMethod (c$, "calculateAllPolymers", 
 function (groups, groupCount, baseGroupIndex, modelsExcluded) {
-var checkConnections = !this.vwr.getBoolean (603979894);
+var checkConnections = !this.vwr.getBoolean (603979896);
 if (groupCount < 0) groupCount = groups.length;
 if (modelsExcluded != null) for (var j = 0; j < groupCount; ++j) {
 var group = groups[j];
@@ -63,8 +63,8 @@ for (var i = 0, mc = this.ms.mc; i < mc; i++) if ((modelsExcluded == null || !mo
 for (var pt = 0, j = baseGroupIndex; j < groupCount; ++j, pt++) {
 var g = groups[j];
 var model = g.getModel ();
-if (!model.isBioModel || !(Clazz.instanceOf (g, JM.Monomer))) continue;
-var doCheck = checkConnections && !this.ms.isJmolDataFrameForModel (this.ms.at[g.firstAtomIndex].mi);
+if (!model.isBioModel || !(Clazz.instanceOf (g, JM.Monomer)) || g.getLeadAtom () == null) continue;
+var doCheck = checkConnections && !this.ms.isJmolDataFrameForModel (this.ms.at[g.getLeadAtom ().i].mi);
 var bp = ((g).bioPolymer == null ? JM.BioResolver.allocateBioPolymer (groups, j, doCheck, pt) : null);
 if (bp == null || bp.monomerCount == 0) continue;
 var n = (model).addBioPolymer (bp);
@@ -85,6 +85,7 @@ return ret;
 }, "JU.BS,~B,~B,~B,~B,~B,~N");
 Clazz.defineMethod (c$, "calculateAllStuctures", 
 function (bsAtoms, asDSSP, doReport, dsspIgnoreHydrogen, setStructure, version) {
+if (version <= 0) version = 2;
 var bsAllAtoms =  new JU.BS ();
 var bsModelsExcluded = JU.BSUtil.copyInvert (this.modelsOf (bsAtoms, bsAllAtoms), this.ms.mc);
 if (!setStructure) return this.ms.calculateStructuresAllExcept (bsModelsExcluded, asDSSP, doReport, dsspIgnoreHydrogen, false, false, version);
@@ -167,48 +168,56 @@ case 136314895:
 case 2097184:
 var type = (tokType == 136314895 ? J.c.STR.HELIX : J.c.STR.SHEET);
 for (i = ac; --i >= 0; ) {
+if (at[i] == null) continue;
 if ((g = at[i].group).isWithinStructure (type)) g.setAtomBits (bs);
 i = g.firstAtomIndex;
 }
 break;
 case 2097188:
 for (i = ac; --i >= 0; ) {
+if (at[i] == null) continue;
 if ((g = at[i].group).isCarbohydrate ()) g.setAtomBits (bs);
 i = g.firstAtomIndex;
 }
 break;
 case 2097156:
 for (i = ac; --i >= 0; ) {
+if (at[i] == null) continue;
 if ((g = at[i].group).isDna ()) g.setAtomBits (bs);
 i = g.firstAtomIndex;
 }
 break;
 case 2097166:
 for (i = ac; --i >= 0; ) {
+if (at[i] == null) continue;
 if ((g = at[i].group).isNucleic ()) g.setAtomBits (bs);
 i = g.firstAtomIndex;
 }
 break;
 case 2097168:
 for (i = ac; --i >= 0; ) {
+if (at[i] == null) continue;
 if ((g = at[i].group).isProtein ()) g.setAtomBits (bs);
 i = g.firstAtomIndex;
 }
 break;
 case 2097170:
 for (i = ac; --i >= 0; ) {
+if (at[i] == null) continue;
 if ((g = at[i].group).isPurine ()) g.setAtomBits (bs);
 i = g.firstAtomIndex;
 }
 break;
 case 2097172:
 for (i = ac; --i >= 0; ) {
+if (at[i] == null) continue;
 if ((g = at[i].group).isPyrimidine ()) g.setAtomBits (bs);
 i = g.firstAtomIndex;
 }
 break;
 case 2097174:
 for (i = ac; --i >= 0; ) {
+if (at[i] == null) continue;
 if ((g = at[i].group).isRna ()) g.setAtomBits (bs);
 i = g.firstAtomIndex;
 }
@@ -246,12 +255,12 @@ case 1073742189:
 return this.getAnnotationBits ("validation", 1073742189, specInfo);
 case 1073742128:
 return this.getAnnotationBits ("rna3d", 1073742128, specInfo);
-case 1073741864:
+case 1073741863:
 var s = specInfo;
 bs =  new JU.BS ();
 return (s.length % 2 != 0 ? bs : this.ms.getAtomBitsMDa (1086324742, this.getAllBasePairBits (s), bs));
-case 1073741916:
-return this.getAnnotationBits ("dssr", 1073741916, specInfo);
+case 1111490587:
+return this.getAnnotationBits ("dssr", 1111490587, specInfo);
 case 1086324744:
 return this.getAllSequenceBits (specInfo, null, bs);
 }
@@ -271,13 +280,13 @@ var taintedOnly = (mode == 1073742327);
 if (taintedOnly && !this.ms.proteinStructureTainted) return "";
 var scriptMode = (mode == 1073742158 || mode == 1073742327);
 var atoms = this.ms.at;
-var at0 = (bsAtoms == null ? 0 : bsAtoms.nextSetBit (0));
+var at0 = (bsAtoms == null ? this.vwr.getAllAtoms () : bsAtoms).nextSetBit (0);
 if (at0 < 0) return "";
 if (bsAtoms != null && mode == 4138) {
 bsAtoms = JU.BSUtil.copy (bsAtoms);
-for (var i = this.ms.ac; --i >= 0; ) if (Float.isNaN (atoms[i].group.getGroupParameter (1111490569)) || Float.isNaN (atoms[i].group.getGroupParameter (1111490570))) bsAtoms.clear (i);
+for (var i = this.ms.ac; --i >= 0; ) if (atoms[i] == null || Float.isNaN (atoms[i].group.getGroupParameter (1111490569)) || Float.isNaN (atoms[i].group.getGroupParameter (1111490570))) bsAtoms.clear (i);
 
-}var at1 = (bsAtoms == null ? this.ms.ac : bsAtoms.length ()) - 1;
+}var at1 = (bsAtoms == null ? this.vwr.getAllAtoms () : bsAtoms).length () - 1;
 var im0 = atoms[at0].mi;
 var im1 = atoms[at1].mi;
 var lstStr =  new JU.Lst ();
@@ -297,7 +306,7 @@ cmd.append ("  structure none ").append (JU.Escape.eBS (this.ms.getModelAtomBitS
 }var ps;
 for (var i = i0; i >= 0; i = bsA.nextSetBit (i + 1)) {
 var a = atoms[i];
-if (!(Clazz.instanceOf (a.group, JM.AlphaMonomer)) || (ps = (a.group).proteinStructure) == null || map.containsKey (ps)) continue;
+if (a == null || !(Clazz.instanceOf (a.group, JM.AlphaMonomer)) || (ps = (a.group).proteinStructure) == null || map.containsKey (ps)) continue;
 lstStr.addLast (ps);
 map.put (ps, Boolean.TRUE);
 }
@@ -355,9 +364,9 @@ bs.and (this.ms.getChainBits (identifier.charCodeAt (pt)));
 return bs;
 }, "~S");
 Clazz.defineMethod (c$, "mutate", 
-function (bs, group, sequence) {
-return this.getBioExt ().mutate (this.vwr, bs, group, sequence);
-}, "JU.BS,~S,~A");
+function (bs, group, sequence, alphaType, phipsi) {
+return this.getBioExt ().mutate (this.vwr, bs, group, sequence, alphaType, phipsi);
+}, "JU.BS,~S,~A,~S,~A");
 Clazz.defineMethod (c$, "recalculateAllPolymers", 
 function (bsModelsExcluded, groups) {
 for (var i = 0; i < this.ms.mc; i++) if (this.ms.am[i].isBioModel && !bsModelsExcluded.get (i)) (this.ms.am[i]).clearBioPolymers ();
@@ -384,40 +393,34 @@ if (m.altLocCount > 0) for (var j = m.bioPolymerCount; --j >= 0; ) m.bioPolymers
 Clazz.defineMethod (c$, "setAllProteinType", 
 function (bs, type) {
 var monomerIndexCurrent = -1;
-var iLast = -1;
 var bsModels = this.ms.getModelBS (bs, false);
 this.setAllDefaultStructure (bsModels);
-var at = this.ms.at;
-var am = this.ms.am;
-for (var i = bs.nextSetBit (0); i >= 0; i = bs.nextSetBit (i + 1)) {
-if (at[i].group.isAdded (i)) continue;
-monomerIndexCurrent = at[i].group.setProteinStructureType (type, iLast == i - 1 ? monomerIndexCurrent : -1);
-var modelIndex = at[i].mi;
-this.ms.proteinStructureTainted = am[modelIndex].structureTainted = true;
-iLast = i = at[i].group.lastAtomIndex;
+var groups = this.ms.getGroups ();
+var lastStrucNo = 0;
+var lastResNo = -2147483648;
+var lastPolymer = null;
+var lastModel = null;
+var isNone = (type === J.c.STR.NONE);
+for (var i = 0; i < groups.length; i++) {
+var g = groups[i];
+if (g.getBioPolymerLength () == 0 || !bs.get (g.firstAtomIndex)) continue;
+var m = g.getModel ();
+if (!isNone) {
+if (m !== lastModel) {
+lastModel = m;
+lastStrucNo = 0;
+lastPolymer = null;
+}if (lastPolymer !== (g).bioPolymer) {
+lastResNo = -2147483648;
+lastPolymer = (g).bioPolymer;
+}var resno = g.getResno ();
+if (resno != lastResNo + 1) {
+monomerIndexCurrent = -1;
+}lastResNo = resno;
+}monomerIndexCurrent = g.setProteinStructureType (type, monomerIndexCurrent);
+if (g.getStrucNo () > 1000) g.setStrucNo (++lastStrucNo);
+this.ms.proteinStructureTainted = m.structureTainted = true;
 }
-var lastStrucNo =  Clazz.newIntArray (this.ms.mc, 0);
-for (var i = 0; i < this.ms.ac; i++) {
-var modelIndex = at[i].mi;
-if (!bsModels.get (modelIndex)) {
-i = am[modelIndex].firstAtomIndex + am[modelIndex].act - 1;
-continue;
-}var g = at[i].group;
-if (!g.isAdded (i)) {
-iLast = g.getStrucNo ();
-if (iLast < 1000 && iLast > lastStrucNo[modelIndex]) lastStrucNo[modelIndex] = iLast;
-i = g.lastAtomIndex;
-}}
-for (var i = 0; i < this.ms.ac; i++) {
-var modelIndex = at[i].mi;
-if (!bsModels.get (modelIndex)) {
-i = am[modelIndex].firstAtomIndex + am[modelIndex].act - 1;
-continue;
-}var g = at[i].group;
-if (!g.isAdded (i)) {
-i = g.lastAtomIndex;
-if (g.getStrucNo () > 1000) g.setStrucNo (++lastStrucNo[modelIndex]);
-}}
 }, "JU.BS,J.c.STR");
 Clazz.defineMethod (c$, "setAllStructureList", 
 function (structureList) {
@@ -633,6 +636,7 @@ var bsModels = JU.BS.newN (this.ms.mc);
 var isAll = (bsAtoms == null);
 var i0 = (isAll ? this.ms.ac - 1 : bsAtoms.nextSetBit (0));
 for (var i = i0; i >= 0; i = (isAll ? i - 1 : bsAtoms.nextSetBit (i + 1))) {
+if (this.ms.at[i] == null) continue;
 var modelIndex = this.ms.am[this.ms.at[i].mi].trajectoryBaseIndex;
 if (this.ms.isJmolDataFrameForModel (modelIndex)) continue;
 bsModels.set (modelIndex);
@@ -651,4 +655,6 @@ Clazz.defineMethod (c$, "getAminoAcidValenceAndCharge",
 function (s, atomName, aaRet) {
 return this.getBioExt ().getAminoAcidValenceAndCharge (s, atomName, aaRet);
 }, "~S,~S,~A");
+Clazz.defineStatics (c$,
+"DEFAULT_DSSP_VERSION", 2);
 });

@@ -1,5 +1,5 @@
 Clazz.declarePackage ("JM");
-Clazz.load (["JM.Model"], "JM.BioModel", ["java.util.Hashtable", "JU.AU", "$.BS", "$.Lst", "$.SB", "J.api.Interface", "JM.AlphaPolymer", "$.AminoPolymer", "$.BioModelSet", "JS.SV", "JU.Escape"], function () {
+Clazz.load (["JM.Model"], "JM.BioModel", ["java.util.Hashtable", "JU.AU", "$.BS", "$.Lst", "$.SB", "J.api.Interface", "JM.AlphaPolymer", "$.AminoPolymer", "JS.SV", "JU.Escape"], function () {
 c$ = Clazz.decorateAsClass (function () {
 this.vwr = null;
 this.bioPolymerCount = 0;
@@ -14,7 +14,7 @@ Clazz.superConstructor (this, JM.BioModel, []);
 this.vwr = modelSet.vwr;
 this.set (modelSet, modelIndex, trajectoryBaseIndex, jmolData, properties, auxiliaryInfo);
 this.isBioModel = true;
-if (modelSet.bioModelset == null) modelSet.bioModelset =  new JM.BioModelSet ().set (this.vwr, this.ms);
+this.vwr.getJBR ().getBioModelSet (modelSet);
 this.clearBioPolymers ();
 modelSet.am[modelIndex] = this;
 this.pdbID = auxiliaryInfo.get ("name");
@@ -101,7 +101,7 @@ var cache = (this.dssrCache == null && ann != null ? this.dssrCache =  new java.
 if (cache == null) return null;
 var annotv = cache.get (key);
 if (annotv == null && ann != null) {
-annotv = (Clazz.instanceOf (ann, JS.SV) || Clazz.instanceOf (ann, java.util.Hashtable) ? ann : this.vwr.parseJSON (ann));
+annotv = (Clazz.instanceOf (ann, JS.SV) || Clazz.instanceOf (ann, java.util.Hashtable) ? ann : this.vwr.parseJSONMap (ann));
 cache.put (key, annotv);
 }return (Clazz.instanceOf (annotv, JS.SV) || Clazz.instanceOf (annotv, java.util.Hashtable) ? annotv : null);
 }, "~S,~O");
@@ -250,4 +250,8 @@ if ((bond.order & 28672) != 0 && am[bond.atom1.mi].trajectoryBaseIndex == this.m
 if (bsDelete.nextSetBit (0) >= 0) this.ms.deleteBonds (bsDelete, false);
 this.getRasmolHydrogenBonds (bs, bs, null, false, 2147483647, false, null, dsspVersion);
 }, "JU.BS,~N");
+Clazz.defineMethod (c$, "getAtomicDSSRData", 
+function (dssrData, dataType) {
+if (this.auxiliaryInfo.containsKey ("dssr")) this.vwr.getAnnotationParser (true).getAtomicDSSRData (this.ms, this.modelIndex, dssrData, dataType);
+}, "~A,~S");
 });

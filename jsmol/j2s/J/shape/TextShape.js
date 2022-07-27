@@ -1,5 +1,5 @@
 Clazz.declarePackage ("J.shape");
-Clazz.load (["J.shape.Shape", "java.util.Hashtable"], "J.shape.TextShape", ["JU.P3", "$.PT", "JU.C", "$.Logger"], function () {
+Clazz.load (["J.shape.Shape", "java.util.Hashtable"], "J.shape.TextShape", ["JU.P3", "$.PT", "JM.Text", "JU.C", "$.Logger"], function () {
 c$ = Clazz.decorateAsClass (function () {
 this.objects = null;
 this.currentObject = null;
@@ -41,7 +41,9 @@ this.isAll = true;
 this.objects =  new java.util.Hashtable ();
 return;
 }if ("delete" === propertyName) {
-if (this.currentObject != null) {
+if (Clazz.instanceOf (value, JM.Text)) {
+this.currentObject = value;
+}if (this.currentObject != null) {
 this.objects.remove (this.currentObject.target);
 this.currentObject = null;
 } else if (this.isAll || this.thisID != null) {

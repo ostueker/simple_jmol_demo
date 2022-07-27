@@ -117,6 +117,7 @@ if (isAtom || isModel) this.getHeader = false;
 this.isMultiModel = isModel;
 this.getHeader = false;
 var modelNo = (forceNewModel ? this.modelNumber + 1 : this.getModelNumber ());
+var modelName = this.getModelName ();
 this.modelNumber = (this.useFileModelNumbers ? modelNo : this.modelNumber + 1);
 if (!this.doGetModel (this.modelNumber, null)) {
 this.handleTlsMissingModels ();
@@ -125,7 +126,7 @@ if (!isOK && this.isConcatenated) isOK = this.continuing = true;
 return isOK;
 }if (!this.isCourseGrained) this.connectAll (this.maxSerial, this.isConnectStateBug);
 if (this.ac > 0) this.applySymmetryAndSetTrajectory ();
-this.model (modelNo);
+this.model (modelNo, modelName);
 if (this.isLegacyModelType || !isAtom) return true;
 }if (this.isMultiModel && !this.doProcessLines) {
 return true;
@@ -221,8 +222,10 @@ this.finalizeReaderPDB ();
 Clazz.defineMethod (c$, "finalizeReaderPDB", 
 function () {
 this.checkNotPDB ();
-if (this.pdbID != null) this.asc.setAtomSetName (this.pdbID);
-this.checkUnitCellParams ();
+if (this.pdbID != null && this.pdbID.length > 0) {
+if (!this.isMultiModel) this.asc.setAtomSetName (this.pdbID);
+this.asc.setCurrentModelInfo ("pdbID", this.pdbID);
+}this.checkUnitCellParams ();
 if (!this.isCourseGrained) this.connectAll (this.maxSerial, this.isConnectStateBug);
 var symmetry;
 if (this.vBiomolecules != null && this.vBiomolecules.size () > 0 && this.asc.ac > 0) {
@@ -423,9 +426,10 @@ while (this.readHeader (true) != null && this.line.indexOf ("BIOMT") < 0 && this
 
 chainlist += ";";
 if (this.checkFilterKey ("BIOMOLECULE " + id + ";") || this.checkFilterKey ("BIOMOLECULE=" + id + ";")) {
-this.setFilter (this.filter + chainlist);
+this.setFilter (this.filterCased + chainlist);
 JU.Logger.info ("filter set to \"" + this.filter + "\"");
 this.thisBiomolecule = info;
+this.haveMappedSerials = this.applySymmetry;
 }continue;
 }if (this.line.startsWith ("REMARK 350   BIOMT1 ")) {
 nBiomt++;
@@ -734,7 +738,7 @@ var endInsertionCode = ' ';
 if (this.lineLength > endIndex + 4) endInsertionCode = this.line.charAt (endIndex + 4);
 if (substructureType === J.c.STR.NONE) substructureType = structureType;
 var structure =  new J.adapter.smarter.Structure (-1, structureType, substructureType, structureID, serialID, strandCount, null);
-structure.set (startChainID, startSequenceNumber, startInsertionCode, endChainID, endSequenceNumber, endInsertionCode, -2147483648, 2147483647);
+structure.set (startChainID, startSequenceNumber, startInsertionCode, endChainID, endSequenceNumber, endInsertionCode, 0, 0);
 this.asc.addStructure (structure);
 });
 Clazz.defineMethod (c$, "getModelNumber", 
@@ -745,19 +749,28 @@ if (endModelColumn > this.lineLength) endModelColumn = this.lineLength;
 var iModel = this.parseIntRange (this.line, startModelColumn, endModelColumn);
 return (iModel == -2147483648 ? 0 : iModel);
 });
+Clazz.defineMethod (c$, "getModelName", 
+ function () {
+if (this.lineLength < 16) return null;
+if (this.line.startsWith ("ATOM")) return "";
+var name = this.line.substring (15, this.lineLength).trim ();
+return (name.length == 0 ? null : name);
+});
 Clazz.defineMethod (c$, "model", 
-function (modelNumber) {
+function (modelNumber, name) {
 this.checkNotPDB ();
-this.haveMappedSerials = false;
+if (name == null) name = this.pdbID;
+this.haveMappedSerials = (this.thisBiomolecule != null && this.applySymmetry);
 this.sbConect = null;
 this.asc.newAtomSet ();
+this.asc.setCurrentModelInfo ("pdbID", this.pdbID);
 if (this.asc.iSet == 0 || this.isTrajectory) this.asc.setAtomSetName (this.pdbID);
- else this.asc.setModelInfoForSet ("name", this.pdbID, this.asc.iSet);
+this.asc.setCurrentModelInfo ("name", name);
 this.checkUnitCellParams ();
 if (!this.isCourseGrained) this.setModelPDB (true);
 this.asc.setCurrentAtomSetNumber (modelNumber);
 if (this.isCourseGrained) this.asc.setCurrentModelInfo ("courseGrained", Boolean.TRUE);
-}, "~N");
+}, "~N,~S");
 Clazz.defineMethod (c$, "checkNotPDB", 
  function () {
 var isPDB = (!this.isCourseGrained && (this.nRes == 0 || this.nUNK != this.nRes));
@@ -840,6 +853,7 @@ return;
 if (htName != null) {
 hetName = htName + hetName;
 }this.htHetero.put (groupName, hetName);
+this.appendLoadNote (groupName + " = " + hetName);
 });
 Clazz.defineMethod (c$, "anisou", 
  function () {
